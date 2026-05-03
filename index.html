@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Compass | Твой путь</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Экран 1: Главная -->
+    <section id="home-screen" class="screen active">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 data-i18n="title">Career <span class="highlight">Compass</span></h1>
+                <p data-i18n="subtitle">Отслеживай рост, анализируй навыки и найди профессию мечты.</p>
+                <button id="btn-start" class="btn-primary" data-i18n="startBtn">Начать путь</button>
+            </div>
+            <div class="hero-decoration">🚀</div>
+        </div>
+    </section>
+
+    <!-- Экран 2: Вход -->
+    <section id="login-screen" class="screen">
+        <div class="auth-card">
+            <h2 data-i18n="loginTitle">Вход</h2>
+            <p class="subtitle">admin / 1234</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" data-i18n-placeholder="loginPlaceholder" required placeholder="Логин">
+                    <span class="error-msg" id="username-error"></span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" data-i18n-placeholder="passwordPlaceholder" required placeholder="Пароль">
+                    <span class="error-msg" id="password-error"></span>
+                </div>
+                <p id="login-error" class="error-text hidden">Ошибка входа!</p>
+                <button type="submit" class="btn-primary full-width" data-i18n="loginBtn">Войти</button>
+            </form>
+            <button id="btn-back-home" class="btn-text" data-i18n="backBtn">← Вернуться</button>
+        </div>
+    </section>
+
+    <!-- Экран 3: Дашборд -->
+    <section id="dashboard-screen" class="screen">
+        <nav class="top-nav">
+            <div class="nav-brand">Career Compass</div>
+            <div class="nav-actions">
+                <button id="btn-export" class="btn-nav" data-i18n="exportBtn">📥 Экспорт</button>
+                <span id="user-display-name" class="user-pill">User</span>
+                <button id="btn-logout" class="btn-icon">✕</button>
+            </div>
+        </nav>
+
+        <div class="dashboard-grid">
+            <div class="panel left-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-skills">0</span>
+                        <span class="stat-label" data-i18n="statsSkills">Навыков</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-projects">0</span>
+                        <span class="stat-label" data-i18n="statsProjects">Проектов</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-num" id="stat-achievements">0</span>
+                        <span class="stat-label" data-i18n="statsAchievements">Достижений</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 data-i18n="profileTitle">👤 Профиль</h3>
+                    <div class="editable-field">
+                        <input type="text" id="user-name-input" data-i18n-placeholder="namePlaceholder" placeholder="Ваше имя">
+                        <button id="btn-save-name" class="btn-small">OK</button>
+                    </div>
+                    <span class="error-msg" id="name-error"></span>
+                </div>
+
+                <div class="card">
+                    <h3 data-i18n="skillsTitle">🛠 Навыки</h3>
+                    <div id="skills-list" class="tags-list"></div>
+                    <div class="add-row">
+                        <input type="text" id="new-skill" data-i18n-placeholder="skillPlaceholder" placeholder="Навык...">
+                        <button id="btn-add-skill" class="btn-small">+</button>
+                    </div>
+                    <span class="error-msg" id="skill-error"></span>
+                </div>
+
+                <div class="card">
+                    <h3 data-i18n="projectsTitle">💼 Проекты</h3>
+                    <ul id="projects-list" class="list-view"></ul>
+                    <div class="add-row">
+                        <input type="text" id="new-project" data-i18n-placeholder="projectPlaceholder" placeholder="Проект...">
+                        <button id="btn-add-project" class="btn-small">+</button>
+                    </div>
+                    <span class="error-msg" id="project-error"></span>
+                </div>
+
+                <div class="card">
+                    <h3 data-i18n="achievementsTitle">🏆 Достижения</h3>
+                    <ul id="achievements-list" class="list-view"></ul>
+                    <div class="add-row">
+                        <input type="text" id="new-achievement" data-i18n-placeholder="achievementPlaceholder" placeholder="Достижение...">
+                        <button id="btn-add-achievement" class="btn-small">+</button>
+                    </div>
+                    <span class="error-msg" id="achievement-error"></span>
+                </div>
+            </div>
+
+            <div class="panel right-panel">
+                <div class="card navigator-card">
+                    <h3 data-i18n="navigatorTitle">🧭 Карьерный Навигатор</h3>
+                    <p class="text-sm" data-i18n="navigatorSubtitle">Выберите профессию или посмотрите рекомендации.</p>
+                    
+                    <div class="nav-tabs">
+                        <button class="tab-btn active" onclick="window.switchTab('recommend')" data-i18n="tabRecommend">Рекомендации</button>
+                        <button class="tab-btn" onclick="window.switchTab('manual')" data-i18n="tabManual">Выбрать цель</button>
+                    </div>
+
+                    <div id="tab-recommend" class="tab-content active">
+                        <div id="recommendation-list"></div>
+                    </div>
+
+                    <div id="tab-manual" class="tab-content">
+                        <select id="profession-select" class="full-width select-input"></select>
+                        <button id="btn-analyze" class="btn-primary full-width" style="margin-top: 10px;" data-i18n="analyzeBtn">Анализировать</button>
+                    </div>
+
+                    <div id="analysis-result" style="margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px;">
+                        <h4 id="target-profession-title" style="margin-bottom: 10px; color: var(--primary);">Профессия</h4>
+                        
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span data-i18n="matchLabel">Совпадение:</span>
+                                <span id="match-percent">0%</span>
+                            </div>
+                            <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+                        </div>
+
+                        <div class="gap-analysis">
+                            <h5 data-i18n="missingLabel">📉 Чего не хватает:</h5>
+                            <ul id="missing-skills" class="missing-list"></ul>
+                            <ul id="missing-projects" class="missing-list"></ul>
+                            <ul id="missing-achievements" class="missing-list"></ul>
+                            
+                            <div id="all-good" style="color: var(--success); font-weight: bold; display: none;" data-i18n="allGood">
+                                🎉 Ты полностью готов к этой профессии!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="notification" class="notification hidden"></div>
+
+    <!-- ОБЩИЕ КНОПКИ ТЕМЫ И ЯЗЫКА (для всех экранов) -->
+    <div class="bottom-controls">
+        <button id="btn-theme-toggle" class="btn-icon-large" title="Тема">🌙</button>
+        <select id="language-select" class="lang-select">
+            <option value="ru">🇷🇺 RU</option>
+            <option value="en">🇬🇧 EN</option>
+        </select>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
